@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+#define eps .001
+using namespace std;
+
+int coef[10]={0};
+int maxp;
+
+double fx(double x0)
+{
+    double fx1 = 0;
+    for(int i=maxp;i>=1;i--) fx1+=coef[i] * (pow(x0,i)) ;
+    fx1+=coef[0];
+    return fx1;
+}
+
+int main()
+{
+    double x1,x2,x3;
+    int r=1;
+    cout <<"Maximum power : ";
+    cin >>maxp;
+    for(int i=maxp; i>=0;i--)
+    {
+        cout <<"x^"<<i<<":";
+        cin >> coef[i];
+    }
+    cout <<"Initial estimate : ";
+    cin >>x1 >>x2;
+    while(1)
+    {
+            x3 = x2-((fx(x2)*(x2-x1))/(fx(x2)- fx(x1)));
+            if(fabs((x3-x2)/x3)<= eps) break;
+            else
+            {
+                x1 = x2;
+                x2 = x3;
+            }
+            cout <<"iteration "<<r++<<" value is : "<<x3<<endl;
+    }
+    cout <<"The root is :" <<x3<<endl;
+
+    return 0;
+}
