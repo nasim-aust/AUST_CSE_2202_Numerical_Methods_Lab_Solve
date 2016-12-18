@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+#define EPS         .001
+#define del_x       1
+using namespace std;
+
+int coef[10],n;
+
+double F(double x)
+{
+    double a=0;
+    for(int i=n; i>=0; i--) a = a+(coef[i]*pow(x,i));
+    return a;
+}
+
+void bisection(double x1, double x2)
+{
+    double x0,f0,f1,f2;
+    int flag=1,n=1;
+
+    while(fabs(x1-x2) >= EPS)
+    {
+        x0 = (x1+x2)/2.0;
+
+        f1 = F(x1);
+        f2 = F(x2);
+        f0 = F(x0);
+
+        if(f0*f1 < 0.0) x2 = x0;
+        else if((f0*f2) <0.0) x1 = x0;
+        else
+        {
+            //flag =0;
+            break;
+        }
+    }
+    if(flag) cout <<"Between " << x1 <<" and " << x2 << " there is a root " << x0 <<endl;
+}
+
+int main ()
+{
+    double x1,x2;
+    cout <<"Enter the maximum power : ";
+    cin >>n;
+    cout <<"Enter the co-efficients(from maximum power): ";
+    for(int i=n; i>=0; i--) cin >> coef[i];
+    cout <<"The equation is :";
+    for(int i=n; i>=0; i--)
+    {
+        if(coef[i] > 0) printf(" +%d*",coef[i]);
+        else printf(" %d*",coef[i]);
+        printf("x^%d ",i);
+    }
+    cout << " = 0"<<endl;
+
+    double b = sqrt(pow((coef[n-1]/coef[n]),2) - 2 * (coef[n-2]/coef[n]));
+    cout <<"So all roots lie between -"<< b <<" to +" <<b <<endl;
+
+    x1 = -b;
+    x2 = x1+del_x;
+
+    while(x1 <= b)
+    {
+        if( F(x1)*F(x2)<0)
+        bisection(x1,x2);
+        x1 = x2;
+        x2 = x2 + del_x;
+    }
+
+    return 0;
+}
