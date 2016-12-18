@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+#define EPS         .001
+using namespace std;
+
+int n;
+double coef[100];
+double F(double x)
+{
+    double a = 0;
+    for(int i=n; i>=1; i--) a = a+(coef[i]*pow(x,i));
+    a+=coef[0];
+    return a;
+}
+
+double Fdx(double x0)
+{
+    double a = 0;
+    for(int i=n; i>=1; i--) a = a+(coef[i]*(i*pow(x0,i-1)));
+    return a;
+}
+
+double newton(double x1)
+{
+    double x2,temp;
+    do
+    {
+        x2=x1-(F(x1)/Fdx(x1));
+        temp = x1;
+        x1 = x2;
+    }while((fabs(x2 - temp)/x2) >= EPS);
+    return x2;
+}
+
+void synthetic(double xr)
+{
+    int b[n];
+	b[n]=0;
+	for(int i=n-1;i>=0;i--) b[i] = coef[i+1]+(xr*b[i+1]) ;
+    for(int i=n-1;i>=0;i--) coef[i]=b[i];
+        //cout<<"synthetic coef of "<<n<<"  "<<coef[i]<<endl;
+    n--;
+}
+int main(){
+	double root[10],guess;
+    cout <<"Enter the maximum power : ";
+    cin >>n;
+    int total=n;
+    for(int i=0;i<=n;i++)
+    {
+        printf("x^%d = ",i);
+        cin>>coef[i];
+    }
+    cout <<"Input initial guess: ";
+    cin >> guess;
+    do{
+    	double xr = newton(guess);
+    	//cout<<xr<<endl;
+    	root[n]=xr;
+    	synthetic(xr);
+    	guess=xr;
+	}while(n>1);
+	root[1]=-(coef[0]/coef[1]);
+	for(int i=1;i<=total;i++) cout<<"Root "<<i<<" is : "<<root[i]<<endl;
+
+	return 0;
+}
