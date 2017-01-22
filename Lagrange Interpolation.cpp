@@ -1,37 +1,37 @@
-#include <bits/stdc++.h>
-#define Max 100
-
+#include<bits/stdc++.h>
+#define size 101
 using namespace std;
 
 int main()
 {
-    double x[Max],fx[Max],sum = 0.0 , xp,lf;
     int n;
-    printf("Enter the number of set : ");
-    scanf("%d",&n);
-    printf("Enter Data point and the function value of that point : \n\n");
-    for(int i = 0 ; i < n ;i++)
+    float x[size],y[size],f[size],value,sum=0.0;
+    cout <<"Enter the number of elements: ";
+    cin >> n;
+    for(int i=0; i<n; i++)
     {
         printf("x[%d] = ",i);
-        scanf("%lf",&x[i]);
-        printf("fx[%d] = ",i);
-        scanf("%lf",&fx[i]);
+        cin >> x[i];
+        printf("y[%d] = ",i);
+        cin >> y[i];
     }
-    printf("Enter the value at which interpolation is required : ");
-    scanf("%lf",&xp);
-    for(int i = 0 ; i < n ; i++)
+
+    cout <<"Enter the value at which interpolation is required : ";
+    cin >> value;
+
+    for(int i=0; i<n; i++)
     {
-        lf = 1.0;
-        for(int j = 0 ; j < n ;j++)
+        float temp = 1;
+        int k = i;
+        for(int j=0; j<n; j++)
         {
-            if(i != j)
-            {
-                lf *= (xp-x[j])/(x[i]-x[j]);
-            }
+            if(k == j) continue;
+            else temp = temp * ((value - x[j])/(x[k]-x[j]));
         }
-        sum += lf*fx[i];
+        f[i] = y[i]*temp;
     }
-    printf("Interpolated function value \n\n ");
-    printf("at x = %lf is %0.4lf\n",xp,sum);
+    for(int i=0; i<n; i++) sum = sum+f[i];
+    cout <<"The answer is :" << sum ;
+
     return 0;
 }
