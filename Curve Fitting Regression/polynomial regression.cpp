@@ -44,3 +44,17 @@ int main()
     for(int i=0; i<=m; i++) cout << "a" << i+1 << " = " << arrY[i] << endl;
     return 0;
 }
+/*
+sample input output
+
+Enter the number of data set:4
+Enter the number of polynomial:2
+1 6
+2 11
+3 18
+4 27
+a1 = 3
+a2 = 2
+a3 = 1
+
+*/
